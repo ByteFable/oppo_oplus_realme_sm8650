@@ -235,7 +235,7 @@ jobs:
       - name: 下载 ZIP 工件
         uses: actions/download-artifact@v4
         with:
-          name: Archairex
+          name: Kernel_ZIP_Artifacts
           path: ./release_zips
 
       - name: 设置环境变量
