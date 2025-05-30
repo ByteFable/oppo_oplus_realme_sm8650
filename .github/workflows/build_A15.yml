@@ -55,6 +55,15 @@ jobs:
           remove-haskell: 'true'
           remove-codeql: 'true'
 
+      - name: Restore ccache
+        uses: actions/cache@v3
+        with:
+          path: /home/runner/.ccache
+          key: ccache-${{ runner.os }}-${{ github.ref }}
+          restore-keys: |
+            ccache-${{ runner.os }}-
+
+    
       - name: 安装配置环境依赖
         run: |
           sudo apt update && sudo apt upgrade -y
