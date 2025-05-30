@@ -45,8 +45,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      ksuver: ${{ steps.ksu_version.outputs.ksuver }}
+    env:
+      CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
+      CCACHE_NOHASHDIR: "true"
+      CCACHE_HARDLINK: "true"
+      CCACHE_DIR: /home/runner/.ccache  
+      CCACHE_MAXSIZE: 8G
     steps:
       - name: 最大化建筑空间
         uses: easimon/maximize-build-space@master
@@ -58,6 +62,17 @@ jobs:
           remove-android: 'true'
           remove-haskell: 'true'
           remove-codeql: 'true'
+
+       - name: Configure Git
+         run: |
+         git config --global user.name "ByteFable"
+         git config --global user.email "114514lygyy@gmail.com"
+
+       - name: Install dependencies
+         run: |
+         sudo apt update && sudo apt upgrade -y
+         sudo apt install -y python3 git curl
+         sudo apt install -y python3 git curl ccache
 
       - name: Restore ccache
         uses: actions/cache@v3
@@ -190,6 +205,7 @@ jobs:
         run: |
           cd kernel_workspace
           export KBUILD_BUILD_TIMESTAMP="${{ github.event.inputs.KERNEL_TIME }}"
+          export PATH="/usr/lib/ccache:$PATH"
           if [[ ${{ github.event.inputs.scx_enable }} == "true" ]]; then
             git clone https://github.com/cctv18/sched_ext.git
             rm -rf ./sched_ext/.git
