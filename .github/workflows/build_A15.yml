@@ -114,16 +114,6 @@ jobs:
           cp ../SukiSU_patch/69_hide_stuff.patch ./
           patch -p1 < 69_hide_stuff.patch
 
-      - name: 添加风驰调度支持
-        run: |   
-          if [[ "${{ github.event.inputs.scx_enable }}" == "true" ]]; then
-            cd kernel_workspace/common
-            echo ">>> 添加风驰调度支持..."
-            git clone https://github.com/HanKuCha/sched_ext.git --depth=1
-            rm -rf ./sched_ext/.git ./sched_ext/README.md
-            cp -r ./sched_ext/* ./kernel/sched
-          fi
-
       - name: 应用 lz4k 补丁
         run: |
           if [[ "${{ github.event.inputs.lz4k_enable }}" == "true" ]]; then
@@ -191,11 +181,12 @@ jobs:
         run: |
           export KBUILD_BUILD_TIMESTAMP="${{ github.event.inputs.KERNEL_TIME }}"
           cd kernel_workspace
-          if [[ ${{ github.event.inputs.scx_enable }} == "true" ]]; then
-            git clone https://github.com/cctv18/sched_ext.git
-            rm -rf ./sched_ext/.git
-            rm -rf ./sched_ext/README.md
-            cp -r ./sched_ext/* ./common/kernel/sched
+          if [[ "${{ github.event.inputs.scx_enable }}" == "true" ]]; then
+            cd kernel_workspace/common
+            echo ">>> 添加风驰调度支持..."
+            git clone https://github.com/HanKuCha/sched_ext.git --depth=1
+            rm -rf ./sched_ext/.git ./sched_ext/README.md
+            cp -r ./sched_ext/* ./kernel/sched
           fi
           cd common
           make -j$(nproc --all) LLVM=-20 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnuabeihf- CC=clang LD=ld.lld HOSTCC=clang HOSTLD=ld.lld O=out KCFLAGS+=-Wno-error gki_defconfig all
