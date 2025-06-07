@@ -117,7 +117,7 @@ jobs:
       - name: 添加风驰调度支持
         run: |   
           if [[ "${{ github.event.inputs.scx_enable }}" == "true" ]]; then
-            cd "$WORKDIR/kernel_ws/common"
+            cd kernel_workspace/common
             echo ">>> 添加风驰调度支持..."
             git clone https://github.com/HanKuCha/sched_ext.git --depth=1
             rm -rf ./sched_ext/.git ./sched_ext/README.md
