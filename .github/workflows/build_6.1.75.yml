@@ -284,7 +284,7 @@ jobs:
            
       - name: 构建内核
         run: |
-          export
+          export 
 KBUILD_BUILD_TIMESTAMP="${{ github.event.inputs.kernel_time }}"
           cd kernel_workspace
           if [[ ${{ github.event.inputs.scx_enable }} == "true" ]]; then
