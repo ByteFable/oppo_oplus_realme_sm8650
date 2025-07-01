@@ -73,7 +73,7 @@ on:
       kernel_time:
         description: "内核构建日期更改(默认为原厂)"
         required: true
-        default: '2024-12-17 23:36:49 UTC'
+        default: 'Tue Dec 17 23:36:49 UTC 2024'
 
 jobs:
   build:
