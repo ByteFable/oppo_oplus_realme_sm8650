@@ -125,8 +125,7 @@ jobs:
           #if [[ "${{ env.KERNELSU_VARIANT }}" == "SukiSU-Ultra" ]]; then
           #  echo "BRANCH='-s susfs-main'" >> $GITHUB_ENV
           #fi
-          meta=
-"{{ github.event.inputs.ksu_meta }}"
+          meta="${{ github.event.inputs.KSU_META }}"
           BRANCH_NAME="${meta%%/*}"
           CUSTOM_TAG="${meta#*/}"
           echo "分支名: $BRANCH_NAME"
